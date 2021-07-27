@@ -4559,7 +4559,9 @@ static EFI_STATUS boot(EFI_HANDLE image_handle, EFI_BOOT_SERVICES* bs, EFI_FILE_
         Status = initialize_csm(image_handle, bs);
         if (EFI_ERROR(Status)) {
             print_error("initialize_csm", Status);
-            goto end;
+            if (version >= _WIN32_WINNT_WIN8)
+                goto end;
+            print_string("Trying to boot Windows 7 or older without CSM...\n");
         }
     }
 
